@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/1.Core/">
+    <Project Path="src/1.Core/NotifyHub.Core.ApplicationService/NotifyHub.Core.ApplicationService.csproj" Id="d7a83103-39d1-4e60-b5dd-c7bee46a69ad" />
+    <Project Path="src/1.Core/NotifyHub.Core.BuildingBlocks/NotifyHub.Core.BuildingBlocks.csproj" Id="c5188d54-1d4b-4fc2-9e6e-5151aa15197e" />
+    <Project Path="src/1.Core/NotifyHub.Core.Contracts/NotifyHub.Core.Contracts.csproj" Id="dfe8c7a9-a4bf-45a9-938d-52dd55788920" />
+    <Project Path="src/1.Core/NotifyHub.Core.Domain/NotifyHub.Core.Domain.csproj" Id="b3535fa4-c336-4ffc-a253-76b93df91d4c" />
+  </Folder>
+  <Folder Name="/src/2.Infrastructure/">
+    <Project Path="src/2.Infrastructure/NotifyHub.Infrastructure.Services/NotifyHub.Infrastructure.Services.csproj" Id="e70ca547-dcd7-4e7a-b27d-1a4187866f04" />
+  </Folder>
+  <Folder Name="/src/2.Infrastructure/Data/">
+    <Project Path="src/2.Infrastructure/Data/NotifyHub.Infrastructure.Data.SqlServer/NotifyHub.Infrastructure.Data.SqlServer.csproj" Id="7d567928-0f90-4043-bb86-ef93463f2890" />
+  </Folder>
+  <Folder Name="/src/3.Endpoint/">
+    <Project Path="src/3.Endpoint/NotifyHub.Endpoint.WebAPI/NotifyHub.Endpoint.WebAPI.csproj" Id="f3f91837-367b-4409-8436-081faf55869d" />
+  </Folder>
+  <Folder Name="/src/4.Shared/">
+    <Project Path="src/4.Shared/NotifyHub.Shared.Utility/NotifyHub.Shared.Utility.csproj" Id="e4db51ec-3b47-4984-bae4-b43532cd8d6b" />
+  </Folder>
+</Solution>
