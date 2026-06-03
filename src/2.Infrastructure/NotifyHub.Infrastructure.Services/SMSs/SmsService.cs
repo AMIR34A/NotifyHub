@@ -4,9 +4,9 @@ using NotifyHub.Shared.Utility.Exceptions;
 
 namespace NotifyHub.Infrastructure.Services.SMSs;
 
-public class SmsProvider(IEnumerable<ISmsService> smsProviders)
+public class SmsService(IEnumerable<ISmsProvider> smsProviders)
 {
-    private readonly IEnumerable<ISmsService> _smsProviders = smsProviders;
+    private readonly IEnumerable<ISmsProvider> _smsProviders = smsProviders;
 
     public async Task Send(string receiver, string message)
     {

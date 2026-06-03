@@ -4,9 +4,9 @@ using NotifyHub.Shared.Utility.Exceptions;
 
 namespace NotifyHub.Infrastructure.Services.Emails
 {
-    public class EmailProvider(IEnumerable<IEmailService> emailProviders)
+    public class EmailService(IEnumerable<IEmailProvider> emailProviders)
     {
-        private readonly IEnumerable<IEmailService> _emailProviders = emailProviders;
+        private readonly IEnumerable<IEmailProvider> _emailProviders = emailProviders;
 
         public async Task Send(string receiver, string subject, string body)
         {

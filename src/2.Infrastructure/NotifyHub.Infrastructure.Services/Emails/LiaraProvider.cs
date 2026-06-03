@@ -8,7 +8,7 @@ using NotifyHub.Shared.Utility.Results;
 
 namespace NotifyHub.Infrastructure.Services.Emails;
 
-public class LiaraEmailService(IOptions<AppSettings> options) : IEmailService
+public class LiaraEmailService(IOptions<AppSettings> options) : IEmailProvider
 {
     private readonly BaseEmailOptions _emailOptions = options.Value.EmailProviders.Base;
 

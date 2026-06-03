@@ -8,7 +8,7 @@ using NotifyHub.Shared.Utility.Results;
 
 namespace NotifyHub.Infrastructure.Services.SMSs;
 
-public class KavenegarProvider(IOptions<AppSettings> options) : ISmsService
+public class KavenegarProvider(IOptions<AppSettings> options) : ISmsProvider
 {
     private readonly KavenegarOptions _kavenegarOptions = options.Value.SmsProviders.Kavenegar;
 

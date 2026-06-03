@@ -2,7 +2,7 @@
 
 namespace NotifyHub.Core.Contracts.Services;
 
-public interface IEmailService
+public interface IEmailProvider
 {
     Task<IOperationResult> SendAsync(string receiver, string subject, string body);
 }

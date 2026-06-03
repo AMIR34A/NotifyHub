@@ -24,12 +24,12 @@ public static class DependencyInjection
 
         services.AddTransient<INotificationRepository, NotificationRepository>();
 
-        services.AddSingleton<ISmsService, KavenegarProvider>();
-        services.AddSingleton<ISmsService, SmsIrProvider>();
-        services.AddSingleton<SmsProvider>();
+        services.AddSingleton<ISmsProvider, KavenegarProvider>();
+        services.AddSingleton<ISmsProvider, SmsIrProvider>();
+        services.AddSingleton<SmsService>();
 
-        services.AddSingleton<IEmailService, LiaraEmailService>();
-        services.AddSingleton<EmailProvider>();
+        services.AddSingleton<IEmailProvider, LiaraEmailService>();
+        services.AddSingleton<EmailService>();
 
         return services;
     }

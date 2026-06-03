@@ -8,7 +8,7 @@ using NotifyHub.Shared.Utility.Results;
 
 namespace NotifyHub.Infrastructure.Services.SMSs;
 
-public class SmsIrProvider(IOptions<AppSettings> options) : ISmsService
+public class SmsIrProvider(IOptions<AppSettings> options) : ISmsProvider
 {
     private readonly SmsIrOptions _smsIrOptions = options.Value.SmsProviders.SmsIr;
 

@@ -2,7 +2,7 @@
 
 namespace NotifyHub.Core.Contracts.Services;
 
-public interface ISmsService
+public interface ISmsProvider
 {
     Task<IOperationResult> SendAsync(string receiver, string message);
 
