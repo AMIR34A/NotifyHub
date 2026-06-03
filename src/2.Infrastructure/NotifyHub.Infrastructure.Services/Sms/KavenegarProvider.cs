@@ -1,12 +1,39 @@
-﻿using NotifyHub.Core.Contracts.Services;
+﻿using Kavenegar;
+using Microsoft.Extensions.Options;
+using NotifyHub.Core.Contracts.Services;
+using NotifyHub.Shared.Utility.AppSettings;
+using NotifyHub.Shared.Utility.AppSettings.Sms;
+using NotifyHub.Shared.Utility.Exceptions;
+using NotifyHub.Shared.Utility.Results;
 
 namespace NotifyHub.Infrastructure.Services.Sms;
 
-public class KavenegarProvider : ISmsService
+public class KavenegarProvider(IOptions<AppSettings> options) : ISmsService
 {
-    public Task SendAsync()
+    private readonly KavenegarOptions _kavenegarOptions = options.Value.SmsProviders.Kavenegar;
+
+    public async Task<OperationResult> SendAsync(string receiver, string message)
     {
-        throw new NotImplementedException();
+        try
+        {
+            KavenegarApi kavenegarApi = new KavenegarApi(_kavenegarOptions.ApiKey);
+
+            return await Task.Run(() =>
+            {
+                var result = kavenegarApi.Send(_kavenegarOptions.Sender, receiver, message);
+
+                if (result is not null && result.Status == 1)
+                    return OperationResult.Succuss();
+
+                return OperationResult.Fail(ErrorType.Unexpected, [$"Failed on {nameof(KavenegarProvider)} Service"]);
+
+            }).ConfigureAwait(false);
+
+        }
+        catch
+        {
+            return OperationResult.Fail(ErrorType.Unexpected, [$"Failed on {nameof(KavenegarProvider)} Service"]);
+        }
     }
 
     public Task Inquiry()

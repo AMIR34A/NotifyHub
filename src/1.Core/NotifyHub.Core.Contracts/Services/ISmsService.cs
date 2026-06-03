@@ -1,8 +1,10 @@
-﻿namespace NotifyHub.Core.Contracts.Services;
+﻿using NotifyHub.Shared.Utility.Results;
+
+namespace NotifyHub.Core.Contracts.Services;
 
 public interface ISmsService
 {
-    Task SendAsync();
+    Task<OperationResult> SendAsync(string receiver, string message);
 
     Task Inquiry();
 }

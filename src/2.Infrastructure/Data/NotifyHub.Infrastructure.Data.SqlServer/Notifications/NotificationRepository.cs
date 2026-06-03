@@ -4,9 +4,9 @@ using NotifyHub.Infrastructure.Data.SqlServer.Base;
 
 namespace Notify.Infrastructure.Data.Repositories;
 
-public class NotificationRepository : BaseRepository<Notification, NotifyDbContext, long>, INotificationRepository
+public class NotificationRepository : BaseRepository<Notification, NotifyHubDbContext, long>, INotificationRepository
 {
-    public NotificationRepository(NotifyDbContext dbContext) : base(dbContext)
+    public NotificationRepository(NotifyHubDbContext dbContext) : base(dbContext)
     {
     }
 }

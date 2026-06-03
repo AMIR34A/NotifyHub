@@ -1,6 +1,6 @@
 ﻿using NotifyHub.Shared.Utility.Exceptions;
 
-namespace NotifyHub.Shared.Utility.ResultPattern;
+namespace NotifyHub.Shared.Utility.Results;
 
 public interface IOperationResult
 {

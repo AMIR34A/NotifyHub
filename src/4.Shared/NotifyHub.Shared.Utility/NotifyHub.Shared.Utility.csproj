@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="AppSettings\Email\" />
-    <Folder Include="AppSettings\Sms\" />
   </ItemGroup>
 
 </Project>

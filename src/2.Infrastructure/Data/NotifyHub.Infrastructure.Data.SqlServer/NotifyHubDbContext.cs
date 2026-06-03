@@ -4,13 +4,13 @@ using NotifyHub.Infrastructure.Data.SqlServer.Base;
 
 namespace Notify.Infrastructure.Data;
 
-public class NotifyDbContext : BaseDbContext
+public class NotifyHubDbContext : BaseDbContext
 {
-    protected override string Schema => "Notify";
+    protected override string Schema => "NotifyHub";
 
     public DbSet<Notification> Notifications { get; set; }
 
-    public NotifyDbContext(DbContextOptions options) : base(options)
+    public NotifyHubDbContext(DbContextOptions options) : base(options)
     {
     }
 }
