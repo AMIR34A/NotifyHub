@@ -6,7 +6,7 @@ using NotifyHub.Shared.Utility.AppSettings.Sms;
 using NotifyHub.Shared.Utility.Exceptions;
 using NotifyHub.Shared.Utility.Results;
 
-namespace NotifyHub.Infrastructure.Services.Smses;
+namespace NotifyHub.Infrastructure.Services.SMSs;
 
 public class KavenegarProvider(IOptions<AppSettings> options) : ISmsService
 {

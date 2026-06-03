@@ -1,9 +1,8 @@
 ﻿using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Core.Domain.Exceptions;
 using NotifyHub.Shared.Utility.Exceptions;
-using NotifyHub.Shared.Utility.Results;
 
-namespace NotifyHub.Infrastructure.Services.Smses;
+namespace NotifyHub.Infrastructure.Services.SMSs;
 
 public class SmsProvider(IEnumerable<ISmsService> smsProviders)
 {

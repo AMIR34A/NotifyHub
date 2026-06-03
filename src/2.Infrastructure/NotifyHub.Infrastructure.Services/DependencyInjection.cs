@@ -6,7 +6,7 @@ using Notify.Infrastructure.Data.Repositories;
 using NotifyHub.Core.Contracts.Data.Notifications;
 using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Infrastructure.Services.Emails;
-using NotifyHub.Infrastructure.Services.Smses;
+using NotifyHub.Infrastructure.Services.SMSs;
 using NotifyHub.Shared.Utility.AppSettings;
 
 namespace NotifyHub.Infrastructure.Services;
@@ -23,11 +23,12 @@ public static class DependencyInjection
         });
 
         services.AddTransient<INotificationRepository, NotificationRepository>();
-        services.AddScoped<ISmsService, KavenegarProvider>();
-        services.AddScoped<ISmsService, SmsIrProvider>();
+
+        services.AddSingleton<ISmsService, KavenegarProvider>();
+        services.AddSingleton<ISmsService, SmsIrProvider>();
         services.AddSingleton<SmsProvider>();
 
-        services.AddScoped<IEmailService, LiaraEmailService>();
+        services.AddSingleton<IEmailService, LiaraEmailService>();
         services.AddSingleton<EmailProvider>();
 
         return services;
