@@ -5,7 +5,6 @@ namespace NotifyHub.Infrastructure.Services.MessageBus;
 
 public class MessageBusService : IMessageBusService
 {
-    private readonly IChannel _channel;
 
     public MessageBusService()
     {

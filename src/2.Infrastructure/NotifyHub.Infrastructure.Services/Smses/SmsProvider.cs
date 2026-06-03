@@ -3,7 +3,7 @@ using NotifyHub.Core.Domain.Exceptions;
 using NotifyHub.Shared.Utility.Exceptions;
 using NotifyHub.Shared.Utility.Results;
 
-namespace NotifyHub.Infrastructure.Services.Sms;
+namespace NotifyHub.Infrastructure.Services.Smses;
 
 public class SmsProvider(IEnumerable<ISmsService> smsProviders)
 {
@@ -13,7 +13,7 @@ public class SmsProvider(IEnumerable<ISmsService> smsProviders)
     {
         foreach (var smsProvider in _smsProviders)
         {
-            OperationResult result = await smsProvider.SendAsync(receiver, message);
+            var result = await smsProvider.SendAsync(receiver, message);
 
             if (result.Succeed)
                 return;

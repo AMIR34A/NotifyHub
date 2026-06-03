@@ -1,6 +1,6 @@
 ﻿namespace NotifyHub.Shared.Utility.AppSettings.Sms;
 
-public class SmsIrOptions : BaseSmsOption
+public class SmsIrOptions : BaseSmsOptions
 {
     public required long LineNumber { get; set; }
 }

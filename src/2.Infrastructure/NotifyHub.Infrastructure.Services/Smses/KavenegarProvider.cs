@@ -6,13 +6,13 @@ using NotifyHub.Shared.Utility.AppSettings.Sms;
 using NotifyHub.Shared.Utility.Exceptions;
 using NotifyHub.Shared.Utility.Results;
 
-namespace NotifyHub.Infrastructure.Services.Sms;
+namespace NotifyHub.Infrastructure.Services.Smses;
 
 public class KavenegarProvider(IOptions<AppSettings> options) : ISmsService
 {
     private readonly KavenegarOptions _kavenegarOptions = options.Value.SmsProviders.Kavenegar;
 
-    public async Task<OperationResult> SendAsync(string receiver, string message)
+    public async Task<IOperationResult> SendAsync(string receiver, string message)
     {
         try
         {

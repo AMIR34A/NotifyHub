@@ -18,8 +18,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Data\NotifyHub.Infrastructure.Data.SqlServer\NotifyHub.Infrastructure.Data.SqlServer.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Email\" />
-	</ItemGroup>
 </Project>

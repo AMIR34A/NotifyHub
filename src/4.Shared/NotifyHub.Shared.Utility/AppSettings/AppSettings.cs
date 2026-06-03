@@ -1,4 +1,5 @@
-﻿using NotifyHub.Shared.Utility.AppSettings.Sms;
+﻿using NotifyHub.Shared.Utility.AppSettings.Email;
+using NotifyHub.Shared.Utility.AppSettings.Sms;
 
 namespace NotifyHub.Shared.Utility.AppSettings;
 
@@ -25,16 +26,5 @@ public sealed class SmsProviders
 
 public sealed class EmailProviders
 {
-    public required Liara Liara { get; set; }
-}
-
-public sealed class Liara
-{
-    public required string Url { get; set; }
-
-    public required string AccessKey { get; set; }
-
-    public required string SecretKey { get; set; }
-
-    public required string BucketName { get; set; }
+    public required BaseEmailOptions Base { get; set; }
 }

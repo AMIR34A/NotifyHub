@@ -1,6 +1,8 @@
-﻿namespace NotifyHub.Core.Contracts.Services;
+﻿using NotifyHub.Shared.Utility.Results;
+
+namespace NotifyHub.Core.Contracts.Services;
 
 public interface IEmailService
 {
-    Task SendAsync();
+    Task<IOperationResult> SendAsync(string receiver, string subject, string body);
 }
