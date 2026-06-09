@@ -8,26 +8,31 @@ using NotifyHub.Shared.Utility.Results;
 
 namespace NotifyHub.Infrastructure.Services.SMSs;
 
-public class KavenegarProvider(IOptions<AppSettings> options) : ISmsProvider
+public class KavenegarProvider : ISmsProvider
 {
-    private readonly KavenegarOptions _kavenegarOptions = options.Value.SmsProviders.Kavenegar;
+    private readonly KavenegarOptions _kavenegarOptions;
+    private readonly KavenegarApi _kavenegarApi;
 
-    public async Task<IOperationResult> SendAsync(string receiver, string message)
+    public KavenegarProvider(IOptions<AppSettings> options)
+    {
+        _kavenegarOptions = options.Value.SmsProviders.Kavenegar;
+        _kavenegarApi = new KavenegarApi(_kavenegarOptions.ApiKey);
+    }
+
+    public async Task<IOperationResult> SendAsync(string receiver, string message, CancellationToken cancellationToken)
     {
         try
         {
-            KavenegarApi kavenegarApi = new KavenegarApi(_kavenegarOptions.ApiKey);
-
             return await Task.Run(() =>
             {
-                var result = kavenegarApi.Send(_kavenegarOptions.Sender, receiver, message);
+                var result = _kavenegarApi.Send(_kavenegarOptions.Sender, receiver, message);
 
                 if (result is not null && result.Status == 1)
                     return OperationResult.Succuss();
 
                 return OperationResult.Fail(ErrorType.Unexpected, [$"Failed on {nameof(KavenegarProvider)} Service"]);
 
-            }).ConfigureAwait(false);
+            }, cancellationToken).ConfigureAwait(false);
 
         }
         catch

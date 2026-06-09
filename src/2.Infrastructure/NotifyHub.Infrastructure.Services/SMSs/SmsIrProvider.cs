@@ -8,17 +8,27 @@ using NotifyHub.Shared.Utility.Results;
 
 namespace NotifyHub.Infrastructure.Services.SMSs;
 
-public class SmsIrProvider(IOptions<AppSettings> options) : ISmsProvider
+public class SmsIrProvider : ISmsProvider
 {
-    private readonly SmsIrOptions _smsIrOptions = options.Value.SmsProviders.SmsIr;
+    private readonly SmsIrOptions _smsIrOptions;
+    private readonly SmsIr _smsIr;
 
-    public async Task<IOperationResult> SendAsync(string receiver, string message)
+    public SmsIrProvider(IOptions<AppSettings> options)
+    {
+        _smsIrOptions = options.Value.SmsProviders.SmsIr;
+        _smsIr = new SmsIr(_smsIrOptions.ApiKey);
+    }
+
+    public async Task<IOperationResult> SendAsync(string receiver, string message, CancellationToken cancellationToken)
     {
         try
         {
-            SmsIr smsIr = new SmsIr(_smsIrOptions.ApiKey);
-            var result = await smsIr.BulkSendAsync(_smsIrOptions.LineNumber, message, [receiver])
-                                                       .ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var result = await _smsIr.BulkSendAsync(_smsIrOptions.LineNumber, message, [receiver])
+                                                        .ConfigureAwait(false);
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             if (result is not null && result.Status == 1)
                 return OperationResult.Succuss();
