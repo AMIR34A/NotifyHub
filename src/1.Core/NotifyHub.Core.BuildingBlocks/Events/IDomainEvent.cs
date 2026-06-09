@@ -1,5 +1,5 @@
 ﻿namespace NotifyHub.Core.BuildingBlocks.Events;
 
-public class IDomainEvent
+public interface IDomainEvent
 {
 }

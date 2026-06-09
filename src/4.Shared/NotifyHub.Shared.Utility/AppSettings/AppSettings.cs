@@ -14,7 +14,7 @@ public class AppSettings
 
 public sealed class MessageBrokers
 {
-    public required RabbitMQ RabbitMQ { get; set; }
+    public required RabbitMqOptions RabbitMQ { get; set; }
 }
 
 public sealed class SmsProviders

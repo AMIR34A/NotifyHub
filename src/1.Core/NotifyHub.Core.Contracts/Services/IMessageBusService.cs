@@ -1,8 +1,10 @@
-﻿namespace NotifyHub.Core.Contracts.Services;
+﻿using NotifyHub.Core.BuildingBlocks.Events;
+
+namespace NotifyHub.Core.Contracts.Services;
 
 public interface IMessageBusService
 {
-    Task Publish<TInput>(TInput input);
+    Task Publish<TEvent>(TEvent input) where TEvent : IDomainEvent;
 
-    Task Send<TInput>(TInput input);
+    Task Send<TEvent>(TEvent input) where TEvent : IDomainEvent;
 }
