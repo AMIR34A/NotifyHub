@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/3.Endpoint/NotifyHub.Endpoint.WebAPI/appsettings.Development.json
+/src/3.Endpoint/NotifyHub.Endpoint.WebAPI/appsettings.Production.json
