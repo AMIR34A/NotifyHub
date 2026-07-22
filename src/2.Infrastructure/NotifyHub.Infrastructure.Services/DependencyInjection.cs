@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Notify.Infrastructure.Data;
 using Notify.Infrastructure.Data.Repositories;
 using NotifyHub.Core.Contracts.Data.Notifications;
+using NotifyHub.Core.Contracts.Factory;
 using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Infrastructure.Services.Emails;
+using NotifyHub.Infrastructure.Services.Factory;
 using NotifyHub.Infrastructure.Services.MessageBuses.RabbitMq;
 using NotifyHub.Infrastructure.Services.SMSs;
 using NotifyHub.Shared.Utility.AppSettings;
@@ -29,10 +31,12 @@ public static class DependencyInjection
 
         services.AddSingleton<ISmsProvider, KavenegarProvider>();
         services.AddSingleton<ISmsProvider, SmsIrProvider>();
-        services.AddSingleton<SmsService>();
+        services.AddSingleton<INotificationSender, SmsService>();
 
         services.AddSingleton<IEmailProvider, LiaraEmailService>();
         services.AddSingleton<EmailService>();
+
+        services.AddSingleton<INotificationSenderFactory, NotificationSenderFactory>();
 
         services.AddSingleton<RabbitMqConnectionManager>();
         services.AddScoped<IMessageBusService, RabbitMqService>();

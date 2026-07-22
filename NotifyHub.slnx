@@ -8,6 +8,7 @@
   </Folder>
   <Folder Name="/src/2.Infrastructure/">
     <Project Path="src/2.Infrastructure/NotifyHub.Infrastructure.Services/NotifyHub.Infrastructure.Services.csproj" Id="e70ca547-dcd7-4e7a-b27d-1a4187866f04" />
+    <Project Path="src/2.Infrastructure/NotifyHub.Infrastructure.Workers/NotifyHub.Infrastructure.Workers/NotifyHub.Infrastructure.Workers.csproj" Id="2d4e887c-c556-4b63-bc41-6d9b202d8486" />
   </Folder>
   <Folder Name="/src/2.Infrastructure/Data/">
     <Project Path="src/2.Infrastructure/Data/NotifyHub.Infrastructure.Data.SqlServer/NotifyHub.Infrastructure.Data.SqlServer.csproj" Id="7d567928-0f90-4043-bb86-ef93463f2890" />

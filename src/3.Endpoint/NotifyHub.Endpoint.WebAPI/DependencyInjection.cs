@@ -1,5 +1,6 @@
 ﻿using NotifyHub.Core.ApplicationService;
 using NotifyHub.Infrastructure.Services;
+using NotifyHub.Infrastructure.Workers;
 using NotifyHub.Shared.Utility.AppSettings;
 using Serilog;
 
@@ -23,7 +24,7 @@ public static class DependencyInjection
 
         services.ConfigureInfrastructure(configuration);
         services.ConfigureApplicationService(configuration);
-
+        services.ConfigureWorkers(configuration);
         return services;
     }
 }

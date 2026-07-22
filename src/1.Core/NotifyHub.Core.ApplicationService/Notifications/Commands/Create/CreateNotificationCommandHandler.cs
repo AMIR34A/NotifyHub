@@ -1,13 +1,11 @@
 ﻿using MediatR;
+using NotifyHub.Core.Contracts.Data.Notifications;
 using NotifyHub.Core.Domain.Notifications;
-using NotifyHub.Infrastructure.Services;
 
 namespace NotifyHub.Core.ApplicationService.Notifications.Commands.Create;
 
-public class CreateNotificationCommandHandler(DependencyHub dependencyHub) : IRequestHandler<CreateNotificationCommand>
+public class CreateNotificationCommandHandler(INotificationRepository _notificationRepository) : IRequestHandler<CreateNotificationCommand>
 {
-    private readonly DependencyHub _dependencyHub = dependencyHub;
-
     public async Task Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
     {
         Notification notification = Notification.Create(request.Channel,
@@ -16,7 +14,7 @@ public class CreateNotificationCommandHandler(DependencyHub dependencyHub) : IRe
             request.Data,
             request.RequestedBy);
 
-        await _dependencyHub.NotificationRepository.InsertAsync(notification, cancellationToken);
-        _dependencyHub.NotificationRepository.Commit();
+        await _notificationRepository.InsertAsync(notification, cancellationToken);
+        await _notificationRepository.CommitAsync();
     }
 }

@@ -4,10 +4,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>5b716fcb-9f64-410d-8b96-8e23474474da</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.9.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.MongoDB" Version="7.2.0" />
@@ -20,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\1.Core\NotifyHub.Core.ApplicationService\NotifyHub.Core.ApplicationService.csproj" />
     <ProjectReference Include="..\..\2.Infrastructure\NotifyHub.Infrastructure.Services\NotifyHub.Infrastructure.Services.csproj" />
+    <ProjectReference Include="..\..\2.Infrastructure\NotifyHub.Infrastructure.Workers\NotifyHub.Infrastructure.Workers\NotifyHub.Infrastructure.Workers.csproj" />
   </ItemGroup>
 
 </Project>

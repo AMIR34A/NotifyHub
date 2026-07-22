@@ -2,23 +2,27 @@
 using NotifyHub.Core.Domain.Exceptions;
 using NotifyHub.Shared.Utility.Exceptions;
 
-namespace NotifyHub.Infrastructure.Services.Emails
+namespace NotifyHub.Infrastructure.Services.Emails;
+
+public class EmailService(IEnumerable<IEmailProvider> emailProviders, IJsonSerializerService jsonSerializer)
 {
-    public class EmailService(IEnumerable<IEmailProvider> emailProviders)
+    public async Task SendAsync(string payload)
     {
-        private readonly IEnumerable<IEmailProvider> _emailProviders = emailProviders;
+        EmailPayload? emailPayload = jsonSerializer.Deserialize<EmailPayload>(payload);
 
-        public async Task Send(string receiver, string subject, string body)
+        if (emailPayload is null)
+            throw new ServiceException(Error.Failure());
+
+        foreach (var emailProvider in emailProviders)
         {
-            foreach (var emailProvider in _emailProviders)
-            {
-                var result = await emailProvider.SendAsync(receiver, subject, body);
+            var result = await emailProvider.SendAsync(emailPayload.Receiver, emailPayload.Subject, emailPayload.Body);
 
-                if (result.Succeed)
-                    return;
-            }
-
-            throw new ServiceException(Error.Unexpected());
+            if (result.Succeed)
+                return;
         }
+
+        throw new ServiceException(Error.Unexpected());
     }
 }
+
+internal sealed record EmailPayload(string Receiver, string Subject, string Body);
