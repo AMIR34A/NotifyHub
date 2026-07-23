@@ -20,6 +20,7 @@
     <Project Path="src/4.Shared/NotifyHub.Shared.Utility/NotifyHub.Shared.Utility.csproj" Id="e4db51ec-3b47-4984-bae4-b43532cd8d6b" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/NotifyHub.IntegrationTests/NotifyHub.IntegrationTests.csproj" Id="efb41c20-6508-48bf-9a58-e82d3e12f679" />
     <Project Path="tests/NotifyHub.UnitTests/NotifyHub.UnitTests.csproj" Id="46c4e40a-bd4d-4077-a94e-a9edcb602020" />
   </Folder>
 </Solution>
