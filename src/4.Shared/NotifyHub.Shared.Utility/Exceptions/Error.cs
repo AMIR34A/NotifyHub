@@ -53,7 +53,7 @@ public readonly record struct Error
 
     public override string ToString()
     {
-        if (Parameters?.Length < 1)
+        if (Parameters is null || Parameters.Length == 0)
             return Description;
 
         StringBuilder errorMessage = new();

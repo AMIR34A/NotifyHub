@@ -32,9 +32,12 @@ public class Notification : AggregateRoot<long>
         string data,
         string requestedBy)
     {
-        Guard.ThrowExceptionIf.Null(message, new DomainException(Error.Validation()));
-        Guard.ThrowExceptionIf.Null(data, new DomainException(Error.Validation()));
+        Guard.ThrowExceptionIf.Empty(message, new DomainException(Error.Validation()));
+        Guard.ThrowExceptionIf.Empty(data, new DomainException(Error.Validation()));
         Guard.ThrowExceptionIf.MaximumLength(requestedBy, 25, new DomainException(Error.Validation()));
+
+        if (message.NeedsParameters)
+            Guard.ThrowExceptionIf.Empty(parameters, new DomainException(Error.Validation()));
 
         return new Notification
         {

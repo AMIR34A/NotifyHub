@@ -28,6 +28,8 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 
         builder.OwnsMany(entity => entity.Parameters, parameterBuilder =>
         {
+            parameterBuilder.ToTable("Parameters");
+
             parameterBuilder.Property(entity => entity.Order)
                             .IsRequired();
 
