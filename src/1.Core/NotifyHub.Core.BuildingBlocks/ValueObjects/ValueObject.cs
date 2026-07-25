@@ -4,6 +4,12 @@ public abstract class ValueObject<T> where T : ValueObject<T>
 {
     protected abstract IEnumerable<object> GetEqualityComponents();
 
+    public static bool operator ==(ValueObject<T> left, ValueObject<T> right)
+        => left.Equals(right);
+
+    public static bool operator !=(ValueObject<T> left, ValueObject<T> right)
+        => !left.Equals(right);
+
     public override bool Equals(object? obj) => obj is ValueObject<T> valueObject &&
                                                 GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
 
