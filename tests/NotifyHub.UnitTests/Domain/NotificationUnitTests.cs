@@ -4,7 +4,7 @@ using NotifyHub.Core.Domain.Notifications;
 
 namespace NotifyHub.UnitTests.Domain;
 
-public class NotificationUnitTest
+public class NotificationUnitTests
 {
     [Fact]
     public void Create_ThrowsDomainException_WhenMessageIsNull()

@@ -4,7 +4,7 @@ using NotifyHub.Core.Domain.Notifications;
 
 namespace NotifyHub.UnitTests.Domain;
 
-public class MessageUnitTest
+public class MessageUnitTests
 {
     [Theory]
     [InlineData("")]
