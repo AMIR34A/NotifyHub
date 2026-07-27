@@ -34,7 +34,7 @@ public abstract class RabbitMqConsumer<TEvent> : BackgroundService
 
     protected virtual string ExchangeName => RabbitMqService.GetExchangeName<TEvent>();
 
-    protected abstract Task HandleAsync(TEvent message, CancellationToken cancellationToken);
+    protected abstract Task HandleAsync(Guid messageId, TEvent message, CancellationToken cancellationToken);
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
@@ -110,7 +110,11 @@ public abstract class RabbitMqConsumer<TEvent> : BackgroundService
                     return;
                 }
 
-                await HandleAsync(message, stoppingToken);
+                Guid messageId;
+                if (!Guid.TryParse(ea.BasicProperties.MessageId, out messageId))
+                    messageId = Guid.NewGuid();
+
+                await HandleAsync(messageId, message, stoppingToken);
 
                 await _channel!.BasicAckAsync(ea.DeliveryTag, multiple: false);
             }
