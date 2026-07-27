@@ -19,9 +19,10 @@ internal class NotificationReceivedHandler : RabbitMqConsumer<NotificationReceiv
         _mediator = mediator;
     }
 
-    protected async override Task HandleAsync(NotificationReceived message, CancellationToken cancellationToken)
+    protected async override Task HandleAsync(Guid messageId, NotificationReceived message, CancellationToken cancellationToken)
     {
-        var command = new CreateNotificationCommand(message.Channel,
+        var command = new CreateNotificationCommand(messageId,
+            message.Channel,
             message.Message,
             message.Parameters,
             message.Data,

@@ -8,6 +8,11 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 {
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
+        builder.HasKey(entity => entity.Id);
+
+        builder.Property(entity => entity.Id)
+               .ValueGeneratedNever();
+
         builder.Property(entity => entity.Channel)
                .IsRequired()
                .HasConversion<string>()

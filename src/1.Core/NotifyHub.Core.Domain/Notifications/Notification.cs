@@ -6,7 +6,7 @@ using NotifyHub.Shared.Utility.Guards.GuardClauses;
 
 namespace NotifyHub.Core.Domain.Notifications;
 
-public class Notification : AggregateRoot<long>
+public class Notification : AggregateRoot<Guid>
 {
     public Channel Channel { get; private set; }
 
@@ -26,12 +26,14 @@ public class Notification : AggregateRoot<long>
 
     public string? ProviderName { get; private set; }
 
-    public static Notification Create(Channel channel,
+    public static Notification Create(Guid id,
+        Channel channel,
         Message message,
         ICollection<Parameter> parameters,
         string data,
         string requestedBy)
     {
+        Guard.ThrowExceptionIf.Empty(id, new DomainException(Error.Validation()));
         Guard.ThrowExceptionIf.Empty(message, new DomainException(Error.Validation()));
         Guard.ThrowExceptionIf.Empty(data, new DomainException(Error.Validation()));
         Guard.ThrowExceptionIf.MaximumLength(requestedBy, 25, new DomainException(Error.Validation()));
@@ -41,6 +43,7 @@ public class Notification : AggregateRoot<long>
 
         return new Notification
         {
+            Id = id,
             Channel = channel,
             Status = Status.InQueue,
             Message = message,
