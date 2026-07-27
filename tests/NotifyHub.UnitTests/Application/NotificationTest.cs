@@ -1,5 +1,5 @@
 ﻿namespace NotifyHub.UnitTests.Application;
 
-public class NotificationUnitTest
+public class NotificationTest
 {
 }

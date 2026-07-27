@@ -4,7 +4,7 @@ using NotifyHub.Core.Domain.Notifications;
 
 namespace NotifyHub.UnitTests.Domain;
 
-public class MessageUnitTests
+public class MessageTests
 {
     [Theory]
     [InlineData("")]
@@ -49,15 +49,16 @@ public class MessageUnitTests
     }
 
     [Fact]
-    public void Message_CreatesMessage_WhenMessageCreation()
+    public void Message_CreatesMessage_WhenValueIsValid()
     {
         // Arrange
-        string messageStr = "A test Message";
+        string value = "A test Message";
+
         // Act
-        Message message = new Message(messageStr);
+        Message message = new Message(value);
 
         // Assert
-        message.Value.Should().Be(messageStr);
+        message.Value.Should().Be(value);
     }
 
     [Fact]
