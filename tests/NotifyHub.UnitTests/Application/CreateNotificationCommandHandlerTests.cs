@@ -12,12 +12,12 @@ namespace NotifyHub.UnitTests.Application;
 public class CreateNotificationCommandHandlerTests
 {
     private readonly CreateNotificationCommandHandler _sut;
-    private readonly Mock<INotificationRepository> notificationRepositoryMock;
+    private readonly Mock<INotificationRepository> _notificationRepositoryMock;
 
     public CreateNotificationCommandHandlerTests()
     {
-        notificationRepositoryMock = new Mock<INotificationRepository>();
-        _sut = new CreateNotificationCommandHandler(notificationRepositoryMock.Object);
+        _notificationRepositoryMock = new Mock<INotificationRepository>();
+        _sut = new CreateNotificationCommandHandler(_notificationRepositoryMock.Object);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class CreateNotificationCommandHandlerTests
         // Arrange
         Guid id = Guid.NewGuid();
 
-        notificationRepositoryMock.Setup(repo => repo.ExistsAsync(It.IsAny<Expression<Func<Notification, bool>>>())).ReturnsAsync(true);
+        _notificationRepositoryMock.Setup(repo => repo.ExistsAsync(It.IsAny<Expression<Func<Notification, bool>>>())).ReturnsAsync(true);
 
         CreateNotificationCommand request = new(
             id,
@@ -38,15 +38,15 @@ public class CreateNotificationCommandHandlerTests
         );
 
         // Act
-        Func<Task> action = async () => await _sut.Handle(request, CancellationToken.None);
+        Func<Task> func = async () => await _sut.Handle(request, CancellationToken.None);
 
         // Assert
-        await action.Should().ThrowAsync<ApplicationException>();
-        notificationRepositoryMock.Verify(repo => repo.ExistsAsync(It.IsAny<Expression<Func<Notification, bool>>>()), Times.Once);
-        notificationRepositoryMock.Verify(repo => repo.Insert(It.IsAny<Notification>()), Times.Never);
-        notificationRepositoryMock.Verify(repo => repo.InsertAsync(It.IsAny<Notification>()), Times.Never);
-        notificationRepositoryMock.Verify(repo => repo.Commit(), Times.Never);
-        notificationRepositoryMock.Verify(repo => repo.CommitAsync(), Times.Never);
+        await func.Should().ThrowAsync<ApplicationException>();
+        _notificationRepositoryMock.Verify(repo => repo.ExistsAsync(It.IsAny<Expression<Func<Notification, bool>>>()), Times.Once);
+        _notificationRepositoryMock.Verify(repo => repo.Insert(It.IsAny<Notification>()), Times.Never);
+        _notificationRepositoryMock.Verify(repo => repo.InsertAsync(It.IsAny<Notification>()), Times.Never);
+        _notificationRepositoryMock.Verify(repo => repo.Commit(), Times.Never);
+        _notificationRepositoryMock.Verify(repo => repo.CommitAsync(), Times.Never);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class CreateNotificationCommandHandlerTests
         // Arrange
         Guid id = Guid.NewGuid();
 
-        notificationRepositoryMock.Setup(repo => repo.CommitAsync()).ThrowsAsync(new DbUpdateException());
+        _notificationRepositoryMock.Setup(repo => repo.CommitAsync()).ThrowsAsync(new DbUpdateException());
 
         CreateNotificationCommand request = new(
             id,
@@ -67,11 +67,11 @@ public class CreateNotificationCommandHandlerTests
         );
 
         // Act
-        Func<Task> action = async () => await _sut.Handle(request, CancellationToken.None);
+        Func<Task> func = async () => await _sut.Handle(request, CancellationToken.None);
 
         // Assert
-        await action.Should().ThrowAsync<DbUpdateException>();
-        notificationRepositoryMock.Verify(repo => repo.Insert(It.IsAny<Notification>()), Times.Once);
-        notificationRepositoryMock.Verify(repo => repo.CommitAsync(), Times.Once);
+        await func.Should().ThrowAsync<DbUpdateException>();
+        _notificationRepositoryMock.Verify(repo => repo.Insert(It.IsAny<Notification>()), Times.Once);
+        _notificationRepositoryMock.Verify(repo => repo.CommitAsync(), Times.Once);
     }
 }
