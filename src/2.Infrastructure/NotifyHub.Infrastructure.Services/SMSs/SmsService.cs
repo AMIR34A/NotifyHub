@@ -3,6 +3,8 @@ using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Core.Domain.Exceptions;
 using NotifyHub.Core.Domain.Notifications;
 using NotifyHub.Shared.Utility.Exceptions;
+using NotifyHub.Shared.Utility.Guards;
+using NotifyHub.Shared.Utility.Guards.GuardClauses;
 using Polly;
 
 namespace NotifyHub.Infrastructure.Services.SMSs;
@@ -13,16 +15,15 @@ public class SmsService(IEnumerable<ISmsProvider> smsProviders, IJsonSerializerS
 
     public async Task SendAsync(string payload)
     {
+        Guard.ThrowExceptionIf.Empty(payload, new ServiceException(Error.Failure()));
         SmsPayload? smsPayload = jsonSerializer.Deserialize<SmsPayload>(payload);
-
-        if (smsPayload is null)
-            throw new ServiceException(Error.Failure());
+        Guard.ThrowExceptionIf.Null(smsPayload, new ServiceException(Error.Failure()));
 
         await pipeline.ExecuteAsync(async cancellationToken =>
         {
             foreach (var smsProvider in smsProviders)
             {
-                var result = await smsProvider.SendAsync(smsPayload.Receiver, smsPayload.Message, cancellationToken);
+                var result = await smsProvider.SendAsync(smsPayload!.Receiver, smsPayload.Message, cancellationToken);
 
                 if (result.Succeed)
                     return;

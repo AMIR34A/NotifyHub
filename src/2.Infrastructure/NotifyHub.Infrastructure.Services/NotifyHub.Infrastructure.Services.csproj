@@ -20,4 +20,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Data\NotifyHub.Infrastructure.Data.SqlServer\NotifyHub.Infrastructure.Data.SqlServer.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="NotifyHub.UnitTests"/>
+	</ItemGroup>
 </Project>
