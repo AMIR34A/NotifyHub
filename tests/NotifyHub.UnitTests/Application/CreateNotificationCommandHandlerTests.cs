@@ -4,6 +4,7 @@ using Moq;
 using NotifyHub.Core.ApplicationService.Notifications.Commands.Create;
 using NotifyHub.Core.Contracts.Data.Notifications;
 using NotifyHub.Core.Domain.Notifications;
+using NotifyHub.Core.RequestResponse.Notifications.Commands.Create;
 using System.Linq.Expressions;
 using ApplicationException = NotifyHub.Core.Domain.Exceptions.ApplicationException;
 
