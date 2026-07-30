@@ -8,6 +8,8 @@ namespace NotifyHub.Core.Domain.Notifications;
 
 public class Notification : AggregateRoot<Guid>
 {
+    public const int MaxRetryCount = 3;
+
     public Channel Channel { get; private set; }
 
     public Status Status { get; private set; }
@@ -25,6 +27,8 @@ public class Notification : AggregateRoot<Guid>
     public string? TraceId { get; private set; }
 
     public string? ProviderName { get; private set; }
+
+    public int RetryCount { get; private set; }
 
     public static Notification Create(Guid id,
         Channel channel,
@@ -50,7 +54,28 @@ public class Notification : AggregateRoot<Guid>
             Parameters = parameters,
             Data = data,
             RequestedBy = requestedBy,
-            RequestedAt = DateTime.Now
+            RequestedAt = DateTime.Now,
+            RetryCount = 0
         };
+    }
+
+    public string GetPreparedMessage()
+    {
+        if (!Message.NeedsParameters)
+            return Message.Value;
+
+        return string.Format(Message.Value, Parameters);
+    }
+
+    public void Sent() => Status = Status.Sent;
+
+    public void Retry() => Status = Status.Retry;
+
+    public void Failed() => Status = Status.Failed;
+
+    public void IncreaseRetryCount()
+    {
+        if (RetryCount < MaxRetryCount)
+            RetryCount++;
     }
 }
