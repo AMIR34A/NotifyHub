@@ -56,5 +56,9 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 
         builder.Property(entity => entity.RequestedAt)
                .IsRequired();
+
+        builder.Property(entity => entity.RetryCount)
+               .HasDefaultValue(0)
+               .IsRequired();
     }
 }
