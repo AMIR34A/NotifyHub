@@ -5,6 +5,7 @@
     <Project Path="src/1.Core/NotifyHub.Core.BuildingBlocks/NotifyHub.Core.BuildingBlocks.csproj" Id="c5188d54-1d4b-4fc2-9e6e-5151aa15197e" />
     <Project Path="src/1.Core/NotifyHub.Core.Contracts/NotifyHub.Core.Contracts.csproj" Id="dfe8c7a9-a4bf-45a9-938d-52dd55788920" />
     <Project Path="src/1.Core/NotifyHub.Core.Domain/NotifyHub.Core.Domain.csproj" Id="b3535fa4-c336-4ffc-a253-76b93df91d4c" />
+    <Project Path="src/1.Core/NotifyHub.Core.RequestResponse/NotifyHub.Core.RequestResponse.csproj" Id="d21b53f3-4144-4fd7-b8c9-ec34119f72a2" />
   </Folder>
   <Folder Name="/src/2.Infrastructure/">
     <Project Path="src/2.Infrastructure/NotifyHub.Infrastructure.Services/NotifyHub.Infrastructure.Services.csproj" Id="e70ca547-dcd7-4e7a-b27d-1a4187866f04" />

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using NotifyHub.Core.RequestResponse.Notifications.Commands.Create;
 
 namespace NotifyHub.Core.ApplicationService.Notifications.Commands.Create;
 

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Notifications\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -20,6 +16,7 @@
     <ProjectReference Include="..\..\2.Infrastructure\NotifyHub.Infrastructure.Services\NotifyHub.Infrastructure.Services.csproj" />
     <ProjectReference Include="..\NotifyHub.Core.Contracts\NotifyHub.Core.Contracts.csproj" />
     <ProjectReference Include="..\NotifyHub.Core.Domain\NotifyHub.Core.Domain.csproj" />
+    <ProjectReference Include="..\NotifyHub.Core.RequestResponse\NotifyHub.Core.RequestResponse.csproj" />
   </ItemGroup>
 
 </Project>

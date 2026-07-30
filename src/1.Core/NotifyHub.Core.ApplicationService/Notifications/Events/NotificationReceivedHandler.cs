@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using NotifyHub.Core.ApplicationService.Notifications.Commands.Create;
 using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Core.Domain.Notifications;
+using NotifyHub.Core.RequestResponse.Notifications.Commands.Create;
 using NotifyHub.Infrastructure.Services.MessageBuses.RabbitMq;
 
 namespace NotifyHub.Core.ApplicationService.Notifications.Events;

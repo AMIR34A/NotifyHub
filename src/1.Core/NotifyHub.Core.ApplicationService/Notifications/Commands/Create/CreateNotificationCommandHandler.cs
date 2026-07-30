@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NotifyHub.Core.Contracts.Data.Notifications;
 using NotifyHub.Core.Domain.Notifications;
+using NotifyHub.Core.RequestResponse.Notifications.Commands.Create;
 using NotifyHub.Shared.Utility.Exceptions;
 using ApplicationException = NotifyHub.Core.Domain.Exceptions.ApplicationException;
 
