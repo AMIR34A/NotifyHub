@@ -11,8 +11,6 @@ using NotifyHub.Infrastructure.Services.Factory;
 using NotifyHub.Infrastructure.Services.MessageBuses.RabbitMq;
 using NotifyHub.Infrastructure.Services.SMSs;
 using NotifyHub.Shared.Utility.AppSettings;
-using Polly;
-using Polly.Retry;
 
 namespace NotifyHub.Infrastructure.Services;
 
@@ -40,18 +38,6 @@ public static class DependencyInjection
 
         services.AddSingleton<RabbitMqConnectionManager>();
         services.AddScoped<IMessageBusService, RabbitMqService>();
-
-        services.AddResiliencePipeline("sms-pipeline", builder =>
-        {
-            builder
-                .AddRetry(new RetryStrategyOptions()
-                {
-                    Delay = TimeSpan.FromSeconds(5),
-                    MaxRetryAttempts = 2,
-                    UseJitter = true
-                })
-                .AddTimeout(TimeSpan.FromSeconds(10));
-        });
 
         services.AddScoped<DependencyHub>();
 

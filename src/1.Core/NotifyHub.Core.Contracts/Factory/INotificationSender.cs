@@ -6,5 +6,5 @@ public interface INotificationSender
 {
     Channel Channel { get; }
 
-    Task SendAsync(string payload);
+    Task<bool> SendAsync(string message, string payload, CancellationToken cancellationToken);
 }
