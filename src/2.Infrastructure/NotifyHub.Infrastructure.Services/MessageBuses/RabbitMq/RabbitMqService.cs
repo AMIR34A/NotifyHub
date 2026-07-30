@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using NotifyHub.Core.BuildingBlocks.Events;
 using NotifyHub.Core.Contracts.Services;
+using NotifyHub.Core.Domain.Exceptions;
+using NotifyHub.Shared.Utility.Exceptions;
+using NotifyHub.Shared.Utility.Guards;
+using NotifyHub.Shared.Utility.Guards.GuardClauses;
 using RabbitMQ.Client;
 using System.Text.RegularExpressions;
 
@@ -55,6 +59,33 @@ internal sealed class RabbitMqService : IMessageBusService
         ArgumentNullException.ThrowIfNull(@event);
 
         var queueName = GetQueueName<TEvent>();
+
+        await using var channel = await CreateChannelAsync();
+
+        await channel.QueueDeclareAsync(
+            queue: queueName,
+            durable: true,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null);
+
+        await channel.BasicPublishAsync(
+            exchange: string.Empty,
+            routingKey: queueName,
+            mandatory: false,
+            basicProperties: BuildProperties(),
+            body: _jsonSerializerService.SerializeToUtf8Bytes(@event));
+
+        _logger.LogDebug(
+            "Sent {Type} → queue '{Queue}'",
+            typeof(TEvent).Name, queueName);
+    }
+
+    public async Task Send<TEvent>(string queueName, TEvent @event)
+    where TEvent : IDomainEvent
+    {
+        Guard.ThrowExceptionIf.Empty(queueName, new ServiceException(Error.Failure()));
+        ArgumentNullException.ThrowIfNull(@event);
 
         await using var channel = await CreateChannelAsync();
 
