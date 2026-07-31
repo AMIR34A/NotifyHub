@@ -5,8 +5,6 @@ using NotifyHub.Core.Domain.Exceptions;
 using NotifyHub.Infrastructure.Services.SMSs;
 using NotifyHub.Shared.Utility.Exceptions;
 using NotifyHub.Shared.Utility.Results;
-using Polly;
-using Polly.Retry;
 
 namespace NotifyHub.UnitTests.Infrastructure;
 
@@ -15,18 +13,10 @@ public class SmsServiceTests
     private readonly SmsService _sut;
     private readonly Mock<ISmsProvider> _smsServiceProviderMock = new Mock<ISmsProvider>();
     private readonly Mock<IJsonSerializerService> _jsonSerializerServiceMock = new Mock<IJsonSerializerService>();
-    private const int RetryCount = 1;
 
     public SmsServiceTests()
     {
-        ResiliencePipeline pipeline = new ResiliencePipelineBuilder()
-            .AddRetry(new RetryStrategyOptions
-            {
-                MaxRetryAttempts = RetryCount,
-            })
-            .Build();
-
-        _sut = new SmsService([_smsServiceProviderMock.Object], _jsonSerializerServiceMock.Object, pipeline);
+        _sut = new SmsService([_smsServiceProviderMock.Object], _jsonSerializerServiceMock.Object);
     }
 
     [Theory]
@@ -38,7 +28,22 @@ public class SmsServiceTests
         // Arrange
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync(payload!);
+        Func<Task> func = async () => await _sut.SendAsync("Message", payload!, CancellationToken.None);
+
+        // Assert
+        await func.Should().ThrowAsync<ServiceException>();
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public async Task SendAsync_ThrowsServiceException_WhenMessageIsNullOrEmpty(string? message)
+    {
+        // Arrange
+
+        // Act
+        Func<Task> func = async () => await _sut.SendAsync(message!, "Payload", CancellationToken.None);
 
         // Assert
         await func.Should().ThrowAsync<ServiceException>();
@@ -52,14 +57,14 @@ public class SmsServiceTests
             .Returns(() => null);
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>());
+        Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None);
 
         // Assert
         await func.Should().ThrowAsync<ServiceException>();
     }
 
     [Fact]
-    public async Task SendAsync_ThrowsServiceException_WhenAllSmsProvidersDoNotRespond()
+    public async Task SendAsync_ReturnsFalse_WhenAllSmsProvidersDoNotRespond()
     {
         // Arrange
         _smsServiceProviderMock.Setup(p => p.SendAsync(It.IsAny<string>(),
@@ -67,16 +72,16 @@ public class SmsServiceTests
             It.IsAny<CancellationToken>())).ReturnsAsync(OperationResult.Fail(ErrorType.Unexpected, []));
 
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<SmsPayload>(It.IsAny<string>()))
-            .Returns(() => new SmsPayload("", ""));
+            .Returns(() => new SmsPayload(""));
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync("Payload");
+        bool result = await _sut.SendAsync("Message", "Payload", CancellationToken.None);
 
         // Assert
-        await func.Should().ThrowAsync<ServiceException>();
+        result.Should().BeFalse();
         _smsServiceProviderMock.Verify(p => p.SendAsync(It.IsAny<string>(),
             It.IsAny<string>(),
-            It.IsAny<CancellationToken>()), Times.Exactly(RetryCount + 1));
+            It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -88,13 +93,13 @@ public class SmsServiceTests
             It.IsAny<CancellationToken>())).ReturnsAsync(OperationResult.Succuss());
 
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<SmsPayload>(It.IsAny<string>()))
-            .Returns(() => new SmsPayload("", ""));
+            .Returns(() => new SmsPayload(""));
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync("Payload");
+        bool result = await _sut.SendAsync("Message", "Payload", CancellationToken.None);
 
         // Assert
-        await func.Should().NotThrowAsync<Exception>();
+        result.Should().BeTrue();
         _smsServiceProviderMock.Verify(p => p.SendAsync(It.IsAny<string>(),
              It.IsAny<string>(),
              It.IsAny<CancellationToken>()), Times.Once);
