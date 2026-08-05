@@ -1,28 +1,34 @@
-﻿using NotifyHub.Core.Contracts.Services;
+﻿using NotifyHub.Core.Contracts.Factory;
+using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Core.Domain.Exceptions;
+using NotifyHub.Core.Domain.Notifications;
 using NotifyHub.Shared.Utility.Exceptions;
+using NotifyHub.Shared.Utility.Guards;
+using NotifyHub.Shared.Utility.Guards.GuardClauses;
 
 namespace NotifyHub.Infrastructure.Services.Emails;
 
-public class EmailService(IEnumerable<IEmailProvider> emailProviders, IJsonSerializerService jsonSerializer)
+public class EmailService(IEnumerable<IEmailProvider> emailProviders, IJsonSerializerService jsonSerializer) : INotificationSender
 {
-    public async Task SendAsync(string payload)
-    {
-        EmailPayload? emailPayload = jsonSerializer.Deserialize<EmailPayload>(payload);
+    public Channel Channel => Channel.Email;
 
-        if (emailPayload is null)
-            throw new ServiceException(Error.Failure());
+    public async Task<bool> SendAsync(string message, string payload, CancellationToken cancellationToken)
+    {
+        Guard.ThrowExceptionIf.Empty(payload, new ServiceException(Error.Failure()));
+        Guard.ThrowExceptionIf.Empty(message, new ServiceException(Error.Failure()));
+        EmailPayload? emailPayload = jsonSerializer.Deserialize<EmailPayload>(payload);
+        Guard.ThrowExceptionIf.Null(emailPayload, new ServiceException(Error.Failure()));
 
         foreach (var emailProvider in emailProviders)
         {
-            var result = await emailProvider.SendAsync(emailPayload.Receiver, emailPayload.Subject, emailPayload.Body);
+            var result = await emailProvider.SendAsync(emailPayload!.Receiver, emailPayload.Subject, message, cancellationToken);
 
             if (result.Succeed)
-                return;
+                return true;
         }
 
-        throw new ServiceException(Error.Unexpected());
+        return false;
     }
 }
 
-internal sealed record EmailPayload(string Receiver, string Subject, string Body);
+internal sealed record EmailPayload(string Receiver, string Subject);

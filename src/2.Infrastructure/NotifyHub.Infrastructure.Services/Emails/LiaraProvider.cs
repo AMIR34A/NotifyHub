@@ -12,7 +12,7 @@ public class LiaraEmailService(IOptions<AppSettings> options) : IEmailProvider
 {
     private readonly BaseEmailOptions _emailOptions = options.Value.EmailProviders.Base;
 
-    public async Task<IOperationResult> SendAsync(string receiver, string subject, string body)
+    public async Task<IOperationResult> SendAsync(string receiver, string subject, string body, CancellationToken cancellationToken)
     {
         try
         {
@@ -20,7 +20,7 @@ public class LiaraEmailService(IOptions<AppSettings> options) : IEmailProvider
                        .To(receiver)
                        .Subject(subject)
                        .PlaintextAlternativeBody(body)
-                       .SendAsync();
+                       .SendAsync(cancellationToken);
 
             return OperationResult.Succuss();
         }

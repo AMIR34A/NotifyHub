@@ -4,5 +4,5 @@ namespace NotifyHub.Core.Contracts.Services;
 
 public interface IEmailProvider
 {
-    Task<IOperationResult> SendAsync(string receiver, string subject, string body);
+    Task<IOperationResult> SendAsync(string receiver, string subject, string body, CancellationToken cancellationToken);
 }
