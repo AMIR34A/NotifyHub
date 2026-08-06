@@ -2,6 +2,7 @@
 using Moq;
 using NotifyHub.Core.Contracts.Services;
 using NotifyHub.Core.Domain.Exceptions;
+using NotifyHub.Core.Domain.Notifications;
 using NotifyHub.Infrastructure.Services.SMSs;
 using NotifyHub.Shared.Utility.Exceptions;
 using NotifyHub.Shared.Utility.Results;
@@ -17,6 +18,18 @@ public class SmsServiceTests
     public SmsServiceTests()
     {
         _sut = new SmsService([_smsServiceProviderMock.Object], _jsonSerializerServiceMock.Object);
+    }
+
+    [Fact]
+    public void SmsService_HasChannelProperty_ReturnsSmsChannel()
+    {
+        // Arrange
+
+        // Act
+        var channel = _sut.Channel;
+
+        // Assert
+        channel.Should().Be(Channel.Sms);
     }
 
     [Theory]
@@ -55,6 +68,23 @@ public class SmsServiceTests
         // Arrange
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<SmsPayload>(It.IsAny<string>()))
             .Returns(() => null);
+
+        // Act
+        Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None);
+
+        // Assert
+        await func.Should().ThrowAsync<ServiceException>();
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public async Task SendAsync_ThrowsServiceException_WhenPayloadReceiverIsNullOrEmpty(string? receiver)
+    {
+        // Arrange
+        _jsonSerializerServiceMock.Setup(s => s.Deserialize<SmsPayload>(It.IsAny<string>()))
+            .Returns(() => new SmsPayload(receiver!));
 
         // Act
         Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None);
