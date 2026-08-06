@@ -16,12 +16,16 @@ public class EmailService(IEnumerable<IEmailProvider> emailProviders, IJsonSeria
     {
         Guard.ThrowExceptionIf.Empty(payload, new ServiceException(Error.Failure()));
         Guard.ThrowExceptionIf.Empty(message, new ServiceException(Error.Failure()));
+
         EmailPayload? emailPayload = jsonSerializer.Deserialize<EmailPayload>(payload);
+
         Guard.ThrowExceptionIf.Null(emailPayload, new ServiceException(Error.Failure()));
+        Guard.ThrowExceptionIf.Null(emailPayload!.Receiver, new ServiceException(Error.Failure()));
+        Guard.ThrowExceptionIf.Null(emailPayload.Subject, new ServiceException(Error.Failure()));
 
         foreach (var emailProvider in emailProviders)
         {
-            var result = await emailProvider.SendAsync(emailPayload!.Receiver, emailPayload.Subject, message, cancellationToken);
+            var result = await emailProvider.SendAsync(emailPayload.Receiver, emailPayload.Subject, message, cancellationToken);
 
             if (result.Succeed)
                 return true;
