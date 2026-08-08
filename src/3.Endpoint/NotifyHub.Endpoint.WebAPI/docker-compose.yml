@@ -1,7 +1,37 @@
-﻿version: "3.8"
-
+﻿name: NotifyHub
 services:
-  sql-server:
-    image: sqlserver:latest
+  notifyhub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - mongo
 
-    
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: sqlserver
+    env_file: ./envs/sqlserver.env
+    ports:
+      - 1433:1433 
+    volumes:
+      - sqlvolume:/var/opt/mssql 
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    env_file: ./envs/rabbitmq.env
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    env_file: ./envs/mongo.env
+    ports:
+      - 27017:27017
+
+volumes:
+  sqlvolume :
