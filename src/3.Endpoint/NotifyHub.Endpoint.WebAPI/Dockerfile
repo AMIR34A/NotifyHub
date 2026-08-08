@@ -20,6 +20,8 @@ COPY ["src/1.Core/NotifyHub.Core.Contracts/NotifyHub.Core.Contracts.csproj", "sr
 COPY ["src/1.Core/NotifyHub.Core.Domain/NotifyHub.Core.Domain.csproj", "src/1.Core/NotifyHub.Core.Domain/"]
 COPY ["src/4.Shared/NotifyHub.Shared.Utility/NotifyHub.Shared.Utility.csproj", "src/4.Shared/NotifyHub.Shared.Utility/"]
 COPY ["src/1.Core/NotifyHub.Core.BuildingBlocks/NotifyHub.Core.BuildingBlocks.csproj", "src/1.Core/NotifyHub.Core.BuildingBlocks/"]
+COPY ["src/1.Core/NotifyHub.Core.RequestResponse/NotifyHub.Core.RequestResponse.csproj", "src/1.Core/NotifyHub.Core.RequestResponse/"]
+COPY ["src/2.Infrastructure/NotifyHub.Infrastructure.Workers/NotifyHub.Infrastructure.Workers/NotifyHub.Infrastructure.Workers.csproj", "src/2.Infrastructure/NotifyHub.Infrastructure.Workers/NotifyHub.Infrastructure.Workers/"]
 RUN dotnet restore "./src/3.Endpoint/NotifyHub.Endpoint.WebAPI/NotifyHub.Endpoint.WebAPI.csproj"
 COPY . .
 WORKDIR "/src/src/3.Endpoint/NotifyHub.Endpoint.WebAPI"
