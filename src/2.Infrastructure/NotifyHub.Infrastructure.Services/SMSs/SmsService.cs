@@ -21,7 +21,7 @@ public class SmsService(IEnumerable<ISmsProvider> smsProviders,
         SmsPayload? smsPayload = jsonSerializer.Deserialize<SmsPayload>(payload);
 
         Guard.ThrowExceptionIf.Null(smsPayload, new ServiceException(Error.Failure()));
-        Guard.ThrowExceptionIf.Null(smsPayload!.Receiver, new ServiceException(Error.Failure()));
+        Guard.ThrowExceptionIf.Empty(smsPayload!.Receiver, new ServiceException(Error.Failure()));
 
         foreach (var smsProvider in smsProviders)
         {

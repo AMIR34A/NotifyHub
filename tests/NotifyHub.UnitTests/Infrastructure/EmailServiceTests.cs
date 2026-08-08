@@ -87,7 +87,7 @@ public class EmailServiceTests
             .Returns(() => new EmailPayload(receiver!, "Email Subject"));
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None);
+        Func<Task> func = async () => await _sut.SendAsync("Message", "Payload", CancellationToken.None);
 
         // Assert
         await func.Should().ThrowAsync<ServiceException>();
@@ -104,7 +104,7 @@ public class EmailServiceTests
             .Returns(() => new EmailPayload("test@gmail.com", subject!));
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None);
+        Func<Task> func = async () => await _sut.SendAsync("Message", "Payload", CancellationToken.None);
 
         // Assert
         await func.Should().ThrowAsync<ServiceException>();
@@ -120,7 +120,7 @@ public class EmailServiceTests
             It.IsAny<CancellationToken>())).ReturnsAsync(OperationResult.Fail(ErrorType.Unexpected, []));
 
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<EmailPayload>(It.IsAny<string>()))
-            .Returns(() => new EmailPayload("", ""));
+            .Returns(() => new EmailPayload("Receiver", "Subject"));
 
         // Act
         bool result = await _sut.SendAsync("Message", "Payload", CancellationToken.None);
@@ -143,7 +143,7 @@ public class EmailServiceTests
             It.IsAny<CancellationToken>())).ReturnsAsync(OperationResult.Succuss());
 
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<EmailPayload>(It.IsAny<string>()))
-            .Returns(() => new EmailPayload("", ""));
+            .Returns(() => new EmailPayload("Receiver", "Subject"));
 
         // Act
         bool result = await _sut.SendAsync("Message", "Payload", CancellationToken.None);

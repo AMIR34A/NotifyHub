@@ -87,7 +87,7 @@ public class SmsServiceTests
             .Returns(() => new SmsPayload(receiver!));
 
         // Act
-        Func<Task> func = async () => await _sut.SendAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None);
+        Func<Task> func = async () => await _sut.SendAsync("Message", "Payload", CancellationToken.None);
 
         // Assert
         await func.Should().ThrowAsync<ServiceException>();
@@ -102,7 +102,7 @@ public class SmsServiceTests
             It.IsAny<CancellationToken>())).ReturnsAsync(OperationResult.Fail(ErrorType.Unexpected, []));
 
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<SmsPayload>(It.IsAny<string>()))
-            .Returns(() => new SmsPayload(""));
+            .Returns(() => new SmsPayload("Receiver"));
 
         // Act
         bool result = await _sut.SendAsync("Message", "Payload", CancellationToken.None);
@@ -123,7 +123,7 @@ public class SmsServiceTests
             It.IsAny<CancellationToken>())).ReturnsAsync(OperationResult.Succuss());
 
         _jsonSerializerServiceMock.Setup(s => s.Deserialize<SmsPayload>(It.IsAny<string>()))
-            .Returns(() => new SmsPayload(""));
+            .Returns(() => new SmsPayload("Receiver"));
 
         // Act
         bool result = await _sut.SendAsync("Message", "Payload", CancellationToken.None);

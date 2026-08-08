@@ -20,8 +20,8 @@ public class EmailService(IEnumerable<IEmailProvider> emailProviders, IJsonSeria
         EmailPayload? emailPayload = jsonSerializer.Deserialize<EmailPayload>(payload);
 
         Guard.ThrowExceptionIf.Null(emailPayload, new ServiceException(Error.Failure()));
-        Guard.ThrowExceptionIf.Null(emailPayload!.Receiver, new ServiceException(Error.Failure()));
-        Guard.ThrowExceptionIf.Null(emailPayload.Subject, new ServiceException(Error.Failure()));
+        Guard.ThrowExceptionIf.Empty(emailPayload!.Receiver, new ServiceException(Error.Failure()));
+        Guard.ThrowExceptionIf.Empty(emailPayload.Subject, new ServiceException(Error.Failure()));
 
         foreach (var emailProvider in emailProviders)
         {
